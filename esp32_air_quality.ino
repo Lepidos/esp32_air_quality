@@ -24,8 +24,8 @@ void messageReceived(String &topic, String &payload);
 void IRAM_ATTR onTimer();
 void connect();
 
-
-void setup() {					// STARTUP ARDUINO CODE
+// STARTUP ARDUINO CODE
+void setup() {					
   #ifdef DBUG
     Serial.begin(SERIALBAUD);                   // start arduino serial connection
   #endif
@@ -45,7 +45,8 @@ void setup() {					// STARTUP ARDUINO CODE
   #endif
 }
 
-void loop() {			        // ARDUINO CODE TO BE EXECUTED AFTER SETUP COMPLETED
+// ARDUINO CODE TO BE EXECUTED AFTER SETUP COMPLETED
+void loop() {			        
   mqtt_client.loop();			// this activates our event
   if (!mqtt_client.connected()) {	// check if connection to mosquitto is not established, and put arduino to rest
     timerAlarmDisable(timer);		// unregister interruption # TO-DO ENABLE
@@ -93,6 +94,7 @@ void loop() {			        // ARDUINO CODE TO BE EXECUTED AFTER SETUP COMPLETED
   }
 }
 
+// HANDLES MOSQUITTO SUBSCRIPTION EVENT
 void messageReceived(String &topic, String &payload) {
   #ifdef DBUG
     Serial.println("incoming: " + topic + "   " + payload);
@@ -127,8 +129,7 @@ void connect() {
   char *mqtt_client_id = new char[18];			// alocate memory for id/mac address
   mqttclientid = WiFi.macAddress(); 		  	// get mac address
   strcpy(mqtt_client_id, WiFi.macAddress().c_str());	// store on char* since mqtt doesn't support String for this
-
-  #ifdef DBUG		// log to serial
+  #ifdef DBUG						// log to serial
     Serial.println((String)"WiFi connected. Received IP: ");
     Serial.print(WiFi.localIP()); Serial.println((String)" MAC:" + mqttclientid );
     Serial.println((String)"connecting to Mosquitto");
@@ -138,7 +139,7 @@ void connect() {
       mqtt_client.begin(MQTTADDR[i], 1883, net_client);		// start mqtt client session
       if (mqtt_client.connect(mqtt_client_id, MQTTUSERNAME, MQTTPASSWORD))	// only leaves when connection to broker is established
         break;
-      delay(1200);	                            // wait 1.2 second and retry
+      delay(1200);	                            		// wait 1.2 second and retry
     }
   }
 
