@@ -81,7 +81,7 @@ void loop() {			        // ARDUINO CODE TO BE EXECUTED AFTER SETUP COMPLETED
       int nindex = SNAME[i].lastIndexOf(' ');	    		// get measure units split index from string located at header
       int nlength = SNAME[i].length();		        	// get measure units string length
       debug_msg += (String) SNAME[i].substring(nindex+1, nlength) + ";" + sensorval[i] + " ";	// contruct publish msg
-      mqtt_client.publish(topic + SNAME[i],(String) sensorval[i]);            // there is another aproach more complicated memory wise performance 
+      mqtt_client.publish(topic + SNAME[i],(String) sensorval[i]);         
 
     }
     debug_msg = debug_msg.substring(0, debug_msg.length());	   // remove last character(space) added previously
@@ -150,7 +150,7 @@ void connect() {
 
 // CODE TO BE EXECUTED IF HARDWARE INTERRUPT OCCURED
 void IRAM_ATTR onTimer() {
-  portENTER_CRITICAL_ISR(&timerMux);	// aquire lock (not needed since theres no concurrency)
+  portENTER_CRITICAL_ISR(&timerMux);	// aquire lock
   interruptCounter++;			// increment interrupt counter
   portEXIT_CRITICAL_ISR(&timerMux);	// unlock
   iflag = true;				// set interrupt flag to signal interruption on loop()
