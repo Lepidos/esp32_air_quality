@@ -1,4 +1,4 @@
-#ifndef wc
+#ifndef esp32_air_quality
 
   #define esp32_air_quality
 //  #define DBUG                              // Uncomment this for serial print
